@@ -1,5 +1,6 @@
-import winsound
 import threading
+import os
+import sys
 
 
 class Playsound(threading.Thread):
@@ -10,12 +11,25 @@ class Playsound(threading.Thread):
 
     def run(self):
         if self.alternate:
-            file = r'sounds/blip1.wav'
+            file = 'sounds/blip1.wav'
         else:
-            file = r'sounds/s1.wav'
+            file = 'sounds/s1.wav'
+
         try:
-            winsound.PlaySound(file, winsound.SND_FILENAME)
+            if sys.platform == 'win32':
+                # Windows
+                import winsound
+                winsound.PlaySound(file, winsound.SND_FILENAME)
+            elif sys.platform == 'darwin':
+                # macOS
+                os.system(f'afplay {file}')
+            else:
+                # Linux
+                # Try common Linux audio players
+                if os.system(f'aplay {file} 2>/dev/null') != 0:
+                    if os.system(f'paplay {file} 2>/dev/null') != 0:
+                        os.system(f'ffplay -nodisp -autoexit {file} 2>/dev/null')
         except:
             return
-        
-    
+
+
