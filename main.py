@@ -15,16 +15,26 @@ ip = PredictIntent()
 prompt = ui_box()
 
 def start_rolling():
-    while(True):
-        prompt.ready()
-        #b=input("tell me what to do")
-        b=VINI_voice.listen_for(3)
-        prompt.busy()
-        intent = ip.predict_intent(b)
-        print(intent)
-        if intent[0] in commands.commands:
-            Playsound().start() #Beep sound
-            commands.commands[intent[0]](b)
+    while(prompt._running):
+        try:
+            prompt.ready()
+            #b=input("tell me what to do")
+            b=VINI_voice.listen_for(3)
+            prompt.busy()
+            intent = ip.predict_intent(b)
+            print(intent)
+            if intent[0] in commands.commands:
+                Playsound().start() #Beep sound
+                commands.commands[intent[0]](b)
+        except Exception as e:
+            print(f"Error in voice command loop: {e}")
+            # Continue running unless explicitly stopped
 
-threading.Thread(target = start_rolling).start()
-prompt.root.mainloop()
+threading.Thread(target = start_rolling, daemon=True).start()
+
+try:
+    prompt.root.mainloop()
+except KeyboardInterrupt:
+    print("\nShutting down...")
+finally:
+    prompt.stop()

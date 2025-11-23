@@ -126,37 +126,85 @@ class Browser:
 
         # Otherwise, search for and click a link on the page
         self.getLinks()
-        print(len(self.links))
-        queries = string.split()
-        scores = [0]*len(self.links)
-        for i in range(len(self.links)):
-            text = self.links[i].text
-            for word in queries:
-                if word in text.lower():
-                    scores[i] += 1
-            if scores[i] == len(queries):  # early stopping to save time
-                break
-        print("found")
-        best_candidate_index = scores.index(max(scores))
 
-        # Try to click the element with error handling
-        try:
-            # Scroll element into view first
-            self.browser.execute_script("arguments[0].scrollIntoView(true);", self.links[best_candidate_index])
-            sleep(0.3)  # Give it a moment to scroll
-            self.clickOn(self.links[best_candidate_index])
-        except Exception as e:
-            print(f"Could not click element: {e}")
-            # Try to find the next best candidate
-            if len(scores) > 1:
-                scores[best_candidate_index] = -1
-                best_candidate_index = scores.index(max(scores))
+        # Filter out non-interactable elements
+        interactable_links = []
+        for link in self.links:
+            try:
+                # Skip elements that are not displayed or not enabled
+                if not link.is_displayed() or not link.is_enabled():
+                    continue
+                # Skip hidden elements (like skip-to-content links)
+                if 'skip' in link.get_attribute('class') or '':
+                    if 'skip' in (link.get_attribute('class') or '').lower():
+                        continue
+                # Skip elements with no text and no aria-label
+                text = link.text.strip()
+                aria_label = link.get_attribute('aria-label') or ''
+                if not text and not aria_label:
+                    continue
+                interactable_links.append(link)
+            except:
+                # If we can't check the element, skip it
+                continue
+
+        if not interactable_links:
+            print("No interactable links found")
+            return
+
+        print(f"Found {len(interactable_links)} interactable links")
+        queries = string.split()
+        scores = [0] * len(interactable_links)
+
+        for i in range(len(interactable_links)):
+            try:
+                text = interactable_links[i].text.lower()
+                aria_label = (interactable_links[i].get_attribute('aria-label') or '').lower()
+                combined_text = text + ' ' + aria_label
+
+                for word in queries:
+                    if word in combined_text:
+                        scores[i] += 1
+                if scores[i] == len(queries):  # early stopping to save time
+                    break
+            except:
+                scores[i] = -1  # Mark as unusable
+                continue
+
+        # Find best candidates
+        max_score = max(scores)
+        if max_score <= 0:
+            print("No matching links found")
+            return
+
+        print("found")
+
+        # Try top 3 candidates
+        for attempt in range(min(3, len(scores))):
+            best_candidate_index = scores.index(max(scores))
+            scores[best_candidate_index] = -1  # Mark as tried
+
+            try:
+                element = interactable_links[best_candidate_index]
+                # Scroll element into view using JavaScript
+                self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+                sleep(0.3)
+                # Try regular click first
+                element.click()
+                print(f"Successfully clicked element")
+                return
+            except Exception as e:
+                print(f"Attempt {attempt + 1} failed: {e}")
+                # Try JavaScript click as fallback
                 try:
-                    self.browser.execute_script("arguments[0].scrollIntoView(true);", self.links[best_candidate_index])
-                    sleep(0.3)
-                    self.clickOn(self.links[best_candidate_index])
+                    self.browser.execute_script("arguments[0].click();", element)
+                    print(f"Successfully clicked element using JavaScript")
+                    return
                 except Exception as e2:
-                    print(f"Could not click backup element either: {e2}")
+                    print(f"JavaScript click also failed: {e2}")
+                    continue
+
+        print("Could not click any matching element")
         """
         try:
             self.clickOn(self.browser.find_element_by_link_text(string))
