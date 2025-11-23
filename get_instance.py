@@ -95,7 +95,10 @@ class Browser:
 
     def search(self,string):  # search google for something
         string = get_the_objective(string)
-        self.getPage("https://www.google.co.in/#safe=off&q={}".format(string))
+        # Use modern Google search URL format
+        from urllib.parse import quote_plus
+        search_query = quote_plus(string)
+        self.getPage(f"https://www.google.com/search?q={search_query}")
 
     def highlight(self, element, toNormal = False):
         def apply_style(s):
