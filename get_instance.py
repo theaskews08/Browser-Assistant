@@ -109,10 +109,24 @@ class Browser:
      	
     def findLink(self,string):
         print("got here")
+        string = get_the_objective(string)
+        string = string.lower().strip()
+
+        # Check if the objective is a URL
+        url_indicators = ['.com', '.org', '.net', '.edu', '.gov', '.io', '.co', '.uk', '.ca']
+        is_url = any(indicator in string for indicator in url_indicators)
+
+        if is_url:
+            # If it looks like a URL, navigate directly to it
+            if not string.startswith('http://') and not string.startswith('https://'):
+                string = 'https://' + string
+            print(f"Navigating to URL: {string}")
+            self.getPage(string)
+            return
+
+        # Otherwise, search for and click a link on the page
         self.getLinks()
         print(len(self.links))
-        string = get_the_objective(string)
-        string = string.lower()
         queries = string.split()
         scores = [0]*len(self.links)
         for i in range(len(self.links)):
@@ -124,7 +138,25 @@ class Browser:
                 break
         print("found")
         best_candidate_index = scores.index(max(scores))
-        self.clickOn(self.links[best_candidate_index])
+
+        # Try to click the element with error handling
+        try:
+            # Scroll element into view first
+            self.browser.execute_script("arguments[0].scrollIntoView(true);", self.links[best_candidate_index])
+            sleep(0.3)  # Give it a moment to scroll
+            self.clickOn(self.links[best_candidate_index])
+        except Exception as e:
+            print(f"Could not click element: {e}")
+            # Try to find the next best candidate
+            if len(scores) > 1:
+                scores[best_candidate_index] = -1
+                best_candidate_index = scores.index(max(scores))
+                try:
+                    self.browser.execute_script("arguments[0].scrollIntoView(true);", self.links[best_candidate_index])
+                    sleep(0.3)
+                    self.clickOn(self.links[best_candidate_index])
+                except Exception as e2:
+                    print(f"Could not click backup element either: {e2}")
         """
         try:
             self.clickOn(self.browser.find_element_by_link_text(string))
