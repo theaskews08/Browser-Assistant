@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 from threading import Thread
@@ -86,8 +87,8 @@ class Browser:
         self.getLinks()
 
     def getLinks(self): # get all  the links in a page
-        self.links=self.browser.find_elements_by_tag_name('a')
-        self.links.extend(self.browser.find_elements_by_tag_name('button'))
+        self.links=self.browser.find_elements(By.TAG_NAME, 'a')
+        self.links.extend(self.browser.find_elements(By.TAG_NAME, 'button'))
         
     def clickOn(self,element):  # clicks on an element
         element.click()
@@ -137,8 +138,8 @@ class Browser:
                         break"""
 
     def getInputs(self):
-        self.inputs=self.browser.find_elements_by_tag_name('input')
-        self.inputs.extend(self.browser.find_elements_by_tag_name('textarea'))
+        self.inputs=self.browser.find_elements(By.TAG_NAME, 'input')
+        self.inputs.extend(self.browser.find_elements(By.TAG_NAME, 'textarea'))
 
     def input_time(self):
         self.getInputs()
@@ -263,11 +264,11 @@ class Browser:
     def open_new_tab(self, command):
         indx = len(self.browser.window_handles)
         try:
-            self.browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL+ 't')
+            self.browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.CONTROL+ 't')
         except:
             self.browser.execute_script('''window.open("about:blank", "_blank");''')
         curWindowHndl = self.browser.current_window_handle
-        self.browser.switch_to_window(self.browser.window_handles[indx])
+        self.browser.switch_to.window(self.browser.window_handles[indx])
 
     def close_tab(self, command):
         curWindowHndl = self.browser.current_window_handle
@@ -278,7 +279,7 @@ class Browser:
         if len(self.browser.window_handles) >=1:
             #switch to the next greatest index
             indx = len(self.browser.window_handles) - 1
-        self.browser.switch_to_window(self.browser.window_handles[indx])
+        self.browser.switch_to.window(self.browser.window_handles[indx])
         
 
     def switch_tab(self, command):
@@ -290,17 +291,17 @@ class Browser:
         if type(response) is str:
             if response == "+1":
                 try:
-                    self.browser.switch_to_window(self.browser.window_handles[current_indx + 1])
+                    self.browser.switch_to.window(self.browser.window_handles[current_indx + 1])
                 except:
                     pass
             else:
                 try:
-                    self.browser.switch_to_window(self.browser.window_handles[current_indx - 1])
+                    self.browser.switch_to.window(self.browser.window_handles[current_indx - 1])
                 except:
                     pass
         elif type(response) is int:
             if response < len(self.browser.window_handles):
-                self.browser.switch_to_window(self.browser.window_handles[response])
+                self.browser.switch_to.window(self.browser.window_handles[response])
             else:
-                self.browser.switch_to_window(self.browser.window_handles[len(self.browser.window_handles) - 1])
+                self.browser.switch_to.window(self.browser.window_handles[len(self.browser.window_handles) - 1])
 
