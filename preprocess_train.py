@@ -73,9 +73,9 @@ Y_test = Y[169:, :]
 def make_model():
     model = Sequential()
     # Adding the input layer and the first hidden layer
-    model.add(Dense(output_dim = 5, init = 'uniform', activation = 'relu', input_dim = input_size))
+    model.add(Dense(units=5, kernel_initializer='uniform', activation='relu', input_dim=input_size))
     # Add Output layer
-    model.add(Dense(output_dim = nb_intents, init = 'uniform', activation = 'softmax',
+    model.add(Dense(units=nb_intents, kernel_initializer='uniform', activation='softmax',
                                 kernel_regularizer=regularizers.l2(0.2)))
     # Compile it
     model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
@@ -92,7 +92,7 @@ history, model = train_nn()
 
 
 #save the model and the weights
-model.save_weights("weights.hdf5",overwrite=True)
+model.save_weights("weights.hdf5")
 
 #saving the model itself in json format:
 model_json = model.to_json()
