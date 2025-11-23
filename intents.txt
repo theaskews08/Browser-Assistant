@@ -1,7 +1,7 @@
 forward _/
 backward _/
 type _/
-reload _/ 
+reload _/
 down _/
 up _/
 stop_scroll _/
@@ -15,3 +15,16 @@ erase _/
 change_tab _/
 open_new_tab _/
 close_tab _/
+volume_set _/
+volume_up _/
+volume_down _/
+mute _/
+unmute _/
+press_key _/
+system_type _/
+copy _/
+paste _/
+cut _/
+mouse_click _/
+mouse_move _/
+mouse_scroll _/

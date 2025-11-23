@@ -202,3 +202,97 @@ exit this tab, close_tab
 exit tab, close_tab
 quit tab, close_tab
 quit this tab, close_tab
+set volume, volume_set
+set volume to, volume_set
+change volume to, volume_set
+volume level, volume_set
+set the volume, volume_set
+adjust volume to, volume_set
+make volume, volume_set
+increase volume, volume_up
+turn up volume, volume_up
+volume up, volume_up
+louder, volume_up
+make it louder, volume_up
+raise volume, volume_up
+boost volume, volume_up
+turn it up, volume_up
+crank it up, volume_up
+decrease volume, volume_down
+turn down volume, volume_down
+volume down, volume_down
+quieter, volume_down
+make it quieter, volume_down
+lower volume, volume_down
+reduce volume, volume_down
+turn it down, volume_down
+softer, volume_down
+mute, mute
+mute volume, mute
+silence, mute
+turn off sound, mute
+mute the sound, mute
+quiet, mute
+unmute, unmute
+unmute volume, unmute
+turn on sound, unmute
+restore sound, unmute
+sound on, unmute
+press enter, press_key
+hit enter, press_key
+press return, press_key
+press tab, press_key
+hit tab, press_key
+press escape, press_key
+press esc, press_key
+hit escape, press_key
+press space, press_key
+hit space, press_key
+press backspace, press_key
+press delete, press_key
+press up, press_key
+press down, press_key
+press left, press_key
+press right, press_key
+type on keyboard, system_type
+keyboard type, system_type
+use keyboard, system_type
+type with keyboard, system_type
+copy this, copy
+copy text, copy
+copy selection, copy
+do a copy, copy
+perform copy, copy
+paste this, paste
+paste text, paste
+paste it, paste
+do a paste, paste
+perform paste, paste
+cut this, cut
+cut text, cut
+cut selection, cut
+do a cut, cut
+perform cut, cut
+click mouse, mouse_click
+left click, mouse_click
+right click, mouse_click
+double click, mouse_click
+click it, mouse_click
+mouse click, mouse_click
+click here, mouse_click
+move mouse, mouse_move
+move cursor, mouse_move
+mouse up, mouse_move
+mouse down, mouse_move
+mouse left, mouse_move
+mouse right, mouse_move
+cursor up, mouse_move
+cursor down, mouse_move
+cursor left, mouse_move
+cursor right, mouse_move
+scroll mouse, mouse_scroll
+mouse scroll, mouse_scroll
+scroll up with mouse, mouse_scroll
+scroll down with mouse, mouse_scroll
+mouse wheel up, mouse_scroll
+mouse wheel down, mouse_scroll

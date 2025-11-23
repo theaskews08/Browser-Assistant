@@ -3,3 +3,12 @@ numpy>=1.21.0
 SpeechRecognition>=3.10.0
 PyAudio>=0.2.11
 nltk>=3.8
+pyautogui>=0.9.53
+pycaw>=20230407; platform_system=="Windows"
+comtypes>=1.2.0; platform_system=="Windows"
+pillow>=9.0.0
+TTS>=0.22.0
+openai-whisper>=20231117
+scipy>=1.10.0
+torch>=2.0.0
+soundfile>=0.12.1

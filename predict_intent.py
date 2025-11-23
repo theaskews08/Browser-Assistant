@@ -7,12 +7,14 @@ class PredictIntent:
     def __init__(self):
         with open("vocab.pkl", 'rb') as data0:
             data = pickle.load(data0) #data is a set
-        self.intents = {'forward':0,'backward':1,'type':2, 'reload':3, 'down':4,
-                        'up':5, 'stop_scroll':6,'next_input':7,
-                        'previous_input':8, 'submit':9, 'click':10,'search':11,
-                        'quit':12, 'erase':13,
-                        'change_tab':14, 'open_new_tab':15, 'close_tab':16
-                       }
+        self.intents = {
+            'forward':0, 'backward':1, 'type':2, 'reload':3, 'down':4, 'up':5, 'stop_scroll':6, 'next_input':7,
+            'previous_input':8, 'submit':9, 'click':10, 'search':11, 'quit':12, 'erase':13,
+            'change_tab':14, 'open_new_tab':15, 'close_tab':16,
+            'volume_set':17, 'volume_up':18, 'volume_down':19, 'mute':20, 'unmute':21,
+            'press_key':22, 'system_type':23, 'copy':24, 'paste':25, 'cut':26,
+            'mouse_click':27, 'mouse_move':28, 'mouse_scroll':29
+        }
         self.indexes = {self.intents[word]:word for word in self.intents}
         self.words = list(data)
         self.words.sort()
