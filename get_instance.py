@@ -195,6 +195,8 @@ class Browser:
                 return
 
     def clear_text(self, command):
+        non_writable_inputs = ['radio', 'checkbox', 'button', 'color',
+                               'file', 'hidden', 'image', 'month', 'range']
         try:
             self.selected_inpt.clear()
         except:
