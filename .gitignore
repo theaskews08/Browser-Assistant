@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Model training artifacts
+*.h5
+*.hdf5
+*.weights.h5
+model.json
+training_output.log
+*.backup
+
+# Logs
+*.log
+geckodriver.log
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment
+.env
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
