@@ -6,7 +6,7 @@ class model:
         #Hyperparameters
         self.input_size = 108
         self.hidden_size = 5
-        self.output_size = 17
+        self.output_size = 30  # Updated to support all 30 intents (17 browser + 13 system)
         self.W1, self.b1, self.W2, self.b2 = self.load_pickled_weights()
     
     def load_pickled_weights(self):

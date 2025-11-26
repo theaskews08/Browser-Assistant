@@ -92,7 +92,7 @@ history, model = train_nn()
 
 
 #save the model and the weights
-model.save_weights("weights.hdf5")
+model.save_weights("weights.weights.h5")
 
 #saving the model itself in json format:
 model_json = model.to_json()
@@ -115,7 +115,7 @@ def load_model():
         loaded_model_json = json_file.read()
         json_file.close()
         model = model_from_json(loaded_model_json)
-        model.load_weights("weights.hdf5")
+        model.load_weights("weights.weights.h5")
         print("Model successfully loaded from disk.")
         
         #compile again
